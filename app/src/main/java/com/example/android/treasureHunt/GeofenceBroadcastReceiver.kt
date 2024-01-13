@@ -40,7 +40,7 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
         if (intent.action == ACTION_GEOFENCE_EVENT) {
             val geofencingEvent = GeofencingEvent.fromIntent(intent)
 
-            if (geofencingEvent.hasError()) {
+            if (geofencingEvent!!.hasError()) {
                 val errorMessage = errorMessage(context, geofencingEvent.errorCode)
                 Log.e(TAG, errorMessage)
                 return
@@ -50,8 +50,8 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
                 Log.v(TAG, context.getString(R.string.geofence_entered))
 
                 val fenceId = when {
-                    geofencingEvent.triggeringGeofences.isNotEmpty() ->
-                        geofencingEvent.triggeringGeofences[0].requestId
+                    geofencingEvent.triggeringGeofences!!.isNotEmpty() ->
+                        geofencingEvent.triggeringGeofences!![0].requestId
                     else -> {
                         Log.e(TAG, "No Geofence Trigger Found! Abort mission!")
                         return
